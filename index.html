@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Números da Mega Sena</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .bet {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Números da Mega Sena</h1>
+    <label for="numBets">Número de apostas:</label>
+    <input type="number" id="numBets" min="1" value="1">
+    <button onclick="generateBets()">Gerar Apostas</button>
+    
+    <div class="result" id="result"></div>
+
+    <script>
+        function generateRandomNumbers() {
+            let numbers = [];
+            while (numbers.length < 6) {
+                let num = Math.floor(Math.random() * 60) + 1;
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            return numbers.sort((a, b) => a - b);
+        }
+
+        function generateBets() {
+            const numBets = document.getElementById('numBets').value;
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // Clear previous results
+
+            let totalCost = numBets * 5;
+            let bets = '';
+
+            for (let i = 0; i < numBets; i++) {
+                const numbers = generateRandomNumbers();
+                bets += `<div class="bet">Aposta ${i + 1}: ${numbers.join(', ')}</div>`;
+            }
+
+            resultDiv.innerHTML = `
+                ${bets}
+                <div>Total a ser gasto: R$${totalCost.toFixed(2)}</div>
+            `;
+        }
+    </script>
+</body>
+</html>
